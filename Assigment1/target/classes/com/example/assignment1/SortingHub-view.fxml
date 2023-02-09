@@ -9,7 +9,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.assignment1.SortingHubController">
    <children>
-      <Pane fx:id="paneWindow" layoutX="16.0" layoutY="43.0" prefHeight="255.0" prefWidth="766.0" style="-fx-border-color: #BBBB;" />
+      <Pane fx:id="paneWindow" layoutX="15.0" layoutY="44.0" prefHeight="256.0" prefWidth="770.0" style="-fx-border-color: #BBBB;" />
       <Label layoutX="16.0" layoutY="331.0" prefHeight="17.0" prefWidth="62.0" text="Algorithm" />
       <ComboBox fx:id="algorithmComboBox" layoutX="78.0" layoutY="325.0" prefWidth="150.0" />
       <Slider fx:id="sliderControl" layoutX="309.0" layoutY="332.0" max="128.0" min="32.0" onDragDetected="#sliderListener" onInputMethodTextChanged="#sliderListener" onMouseClicked="#sliderListener" onMouseDragReleased="#sliderListener" onMouseDragged="#sliderListener" prefHeight="16.0" prefWidth="280.0" />

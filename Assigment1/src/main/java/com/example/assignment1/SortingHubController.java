@@ -16,9 +16,7 @@ import java.util.ResourceBundle;
 
 public class SortingHubController implements Initializable {
     private int[] intArray;
-
     private SortingStrategy sortingMethod;
-
     @FXML
     private ComboBox<String> algorithmComboBox;
     @FXML
@@ -31,13 +29,6 @@ public class SortingHubController implements Initializable {
     private Label arrayValue;
     @FXML
     private Pane paneWindow;
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        resetListener();
-        algorithmComboBox.setValue("Merge Sort");
-        algorithmComboBox.getItems().addAll("Merge Sort", "Insertion Sort");
-    }
     public void setSortStrategy() {
         if(Objects.equals(algorithmComboBox.getValue(), "Merge Sort")) {
             sortingMethod = new MergeSort(this, intArray);
@@ -50,11 +41,7 @@ public class SortingHubController implements Initializable {
    public void sortListener() {
         setSortStrategy();
     }
-    public void sliderListener() {
-        arrayValue.setText("" + (int) Math.floor(sliderControl.getValue()));
-        populateArray((int) sliderControl.getValue());
-        updateGraph(intArray);
-    }
+
     public void resetListener() {
         populateArray(64);
         updateGraph(intArray);
@@ -66,7 +53,7 @@ public class SortingHubController implements Initializable {
         intArray = new int[size];
         int randomNumber;
         Random num = new Random();
-        //add numbers from 1 to whatever the slider Value is to the array
+        //add numbers from a range of 1 to slider value to the array
         for(int i=0; i<size; i++) {
             intArray[i] = i+1;
         }
@@ -81,10 +68,10 @@ public class SortingHubController implements Initializable {
     public void updateGraph(int[] data) {
         int n = data.length;
         paneWindow.getChildren().clear(); //clear the window
-        double width = paneWindow.getWidth();
-        double height = paneWindow.getHeight();
-
+        double width = paneWindow.getPrefWidth();
+        double height = paneWindow.getPrefHeight();
         double rectWidth = width/n - 2;
+
         for(int i=0; i<n; i++) {
             double rectHeight = (data[i] * height) / n;
             double x = (width/n) * i + 1;
@@ -93,5 +80,19 @@ public class SortingHubController implements Initializable {
             br.setFill(Color.RED);
             paneWindow.getChildren().add(br);
         }
+    }
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        populateArray(64);
+        updateGraph(intArray);
+        sliderControl.setValue(64);
+        arrayValue.setText("64");
+        algorithmComboBox.setValue("Merge Sort");
+        algorithmComboBox.getItems().setAll("Merge Sort", "Insertion Sort");
+    }
+    public void sliderListener() {
+        arrayValue.setText("" + (int) Math.floor(sliderControl.getValue()));
+        populateArray((int) sliderControl.getValue());
+        updateGraph(intArray);
     }
 }
