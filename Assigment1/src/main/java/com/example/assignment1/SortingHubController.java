@@ -9,8 +9,8 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-
 import java.net.URL;
+import java.util.Objects;
 import java.util.Random;
 import java.util.ResourceBundle;
 
@@ -18,6 +18,7 @@ public class SortingHubController implements Initializable {
     private int[] intArray;
 
     private SortingStrategy sortingMethod;
+
     @FXML
     private ComboBox<String> algorithmComboBox;
     @FXML
@@ -30,32 +31,38 @@ public class SortingHubController implements Initializable {
     private Label arrayValue;
     @FXML
     private Pane paneWindow;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        populateArray(64);
-        updateGraph(intArray);
+        resetListener();
         algorithmComboBox.setValue("Merge Sort");
-        algorithmComboBox.getItems().addAll("Merge Sort", "Selection Sort");
-        sliderControl.setValue(64);
-        arrayValue.setText("64");
-
+        algorithmComboBox.getItems().addAll("Merge Sort", "Insertion Sort");
     }
-//    public setSortStrategy() {
-//        sortingMethod =
-//   }
+    public void setSortStrategy() {
+        if(Objects.equals(algorithmComboBox.getValue(), "Merge Sort")) {
+            sortingMethod = new MergeSort(this, intArray);
+            new Thread(sortingMethod).start();
+        } else if (Objects.equals(algorithmComboBox.getValue(), "Insertion Sort")) {
+            sortingMethod = new InsertionSort(this, intArray);
+            new Thread(sortingMethod).start();
+        }
+   }
+   public void sortListener() {
+        setSortStrategy();
+    }
     public void sliderListener() {
         arrayValue.setText("" + (int) Math.floor(sliderControl.getValue()));
         populateArray((int) sliderControl.getValue());
         updateGraph(intArray);
     }
     public void resetListener() {
-        algorithmComboBox.setValue("Merge Sort");
+        populateArray(64);
+        updateGraph(intArray);
         sliderControl.setValue(64);
         arrayValue.setText("64");
-        updateGraph(intArray);
     }
     //populate the array with values of non-repeating values from in a range given by the Slider value
-    public int[] populateArray(int size) {
+    public void populateArray(int size) {
         intArray = new int[size];
         int randomNumber;
         Random num = new Random();
@@ -70,11 +77,10 @@ public class SortingHubController implements Initializable {
             intArray[i] = intArray[r];
             intArray[r] = temp;
         }
-        return intArray;
     }
     public void updateGraph(int[] data) {
         int n = data.length;
-        paneWindow.getChildren().clear();
+        paneWindow.getChildren().clear(); //clear the window
         double width = paneWindow.getWidth();
         double height = paneWindow.getHeight();
 
